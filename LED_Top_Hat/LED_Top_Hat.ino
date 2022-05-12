@@ -17,10 +17,10 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
-#define LED_PIN    2
+#define LED_PIN    13
 
 // How many NeoPixels are attached to the Arduino?
-#define LED_COUNT 100
+#define LED_COUNT 300
 
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
@@ -55,16 +55,16 @@ void setup() {
 void loop() {
   // Fill along the length of the strip in various colors...
 
-  /*colorWipe(strip.Color(255,   0,   0), 50); // Red
+  colorWipe(strip.Color(255,   0,   0), 50); // Red
   colorWipe(strip.Color(  0, 255,   0), 50); // Green
   colorWipe(strip.Color(  0,   0, 255), 50); // Blue
 
   // Do a theater marquee effect in various colors...
   theaterChase(strip.Color(127, 127, 127), 50); // White, half brightness
   theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
-  theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness*/
+  theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
 
-  rainbow(0);             // Flowing rainbow cycle along the whole strip
+  rainbow(50);             // Flowing rainbow cycle along the whole strip
   theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant*/
 }
 
