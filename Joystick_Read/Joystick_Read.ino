@@ -25,7 +25,7 @@ void loop() {
   readNewData();
   readJoy();
   arcadeDrive(yDir,xDir,1);
-  delay(500);
+  delay(10);
   
 }
 
