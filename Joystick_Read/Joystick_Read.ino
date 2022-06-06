@@ -4,8 +4,8 @@
 #define INCLUDE_GAMEPAD_MODULE
 #include <Dabble.h>
 
-int yDirPin = 5;
-int xDirPin = 4;
+int yDirPin = 4;
+int xDirPin = 5;
 
 int leftSparkPin = 5;
 int rightSparkPin = 6;
@@ -39,13 +39,18 @@ void loop() {
   if (GreenMode) {
     if (!Dabble.isAppConnected())
       HardStop("Not Connected");
-      
+
     double yDir = mapf(analogRead(yDirPin), 0.0, 1023.0, -1.0, 1.0);
     double xDir = mapf(analogRead(xDirPin), 0.0, 1023.0, -1.0, 1.0);
+    if (absf(xDir) < .3)
+      xDir = 0;
+    if (absf(yDir) < .3)
+      yDir = 0;
+      
     arcadeDrive(yDir, xDir);
   } else {
     double forwardSpeed = mapf(GamePad.getYaxisData(), -7, 7, -1, 1);
-    double turnSpeed = mapf(GamePad.getXaxisData(), -7, 7, -1, 1);
+    double turnSpeed = -mapf(GamePad.getXaxisData(), -7, 7, -1, 1);
     arcadeDrive(forwardSpeed, turnSpeed);
   }
   delay(10);
@@ -60,18 +65,15 @@ void readJoy() {
   //max value 660 3v, 1014 5v
   //yDir = analogRead(yDirPin);
   //xDir = analogRead(xDirPin);
-  
 
-  
+
+
 }
 
-void arcadeDrive(double y, double x) {
+void arcadeDrive(double x, double y) {
   // y is the y axis of the joystick
   // x is the x axis of the SAME joystick
-  if (absf(x) < .3)
-    x = 0;
-  if (absf(y) < .3)
-    y = 0;
+
 
   if (absf(x) + absf(y) < 1) {
     tankDrive(y + x, y - x);
@@ -84,12 +86,19 @@ void arcadeDrive(double y, double x) {
   }
 }
 
-void tankDrive(double left, double right) {
-  left = mapf(left,-1,1,0,180);
-  right = mapf(right,-1,1,0,180);
+void tankDrive(double right, double left) {
+  left = mapf(left, -1, 1, 0, 180);
+  right = mapf(right, -1, 1, 0, 180);
 
-  sparkLeft.write(left);
-  sparkRight.write(right);
+  if (sparkLeft.read() > left)
+    sparkLeft.write(sparkLeft.read() - 1);
+  else if (sparkLeft.read() < left)
+    sparkLeft.write(sparkLeft.read() + 1);
+
+  if (sparkRight.read() > right)
+    sparkRight.write(sparkRight.read() - 1);
+  else if (sparkRight.read() < right)
+    sparkRight.write(sparkRight.read() + 1);
 }
 
 void dabbleStuff() {
@@ -132,7 +141,7 @@ double mapf(double x, double in_min, double in_max, double out_min, double out_m
 }
 
 double absf(double x) {
-  if(x < 0)
+  if (x < 0)
     return -x;
   return x;
 }
