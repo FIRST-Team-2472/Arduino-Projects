@@ -12,6 +12,7 @@ int rightSparkPin = 6;
 
 const int GreenLED = 8;  //Digital pin 8
 bool GreenMode = false;   // Start out disabled
+int maxSpeed = 45;
 
 Servo sparkLeft, sparkRight;
 
@@ -87,8 +88,8 @@ void arcadeDrive(double x, double y) {
 }
 
 void tankDrive(double right, double left) {
-  left = mapf(left, -1, 1, 0, 180);
-  right = mapf(right, -1, 1, 0, 180);
+  left = mapf(left, -1, 1, 90-maxSpeed, 90+maxSpeed);
+  right = mapf(right, -1, 1, 90-maxSpeed, 90+maxSpeed);
 
   if (sparkLeft.read() > left)
     sparkLeft.write(sparkLeft.read() - 1);
@@ -116,6 +117,16 @@ void dabbleStuff() {
     GreenMode = false;
     digitalWrite(GreenLED, LOW);
     Serial.println("GreenMode OFF");
+  }
+
+  if (GamePad.isSquarePressed())
+  {
+    if(maxSpeed < 90) maxSpeed += 1;
+  }
+
+  if (GamePad.isCirclePressed())
+  {
+    if(maxSpeed > 0) maxSpeed-=1;
   }
 }
 
