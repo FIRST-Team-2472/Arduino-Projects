@@ -6,7 +6,7 @@
 
 int yDirPin = 5;
 int xDirPin = 4;
-float yDir = 0, xDir = 0;
+double yDir = 0, xDir = 0;
 
 int leftSparkPin = 5;
 int rightSparkPin = 6;
