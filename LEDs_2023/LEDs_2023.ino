@@ -9,7 +9,7 @@
 // - When using a 3.3V microcontroller with a 5V-powered NeoPixel strip,
 //   a LOGIC-LEVEL CONVERTER on the data line is STRONGLY RECOMMENDED.
 // (Skipping these may work OK on your workbench but can fail in the field)
-.getdigitalimput
+//.getdigitalimput
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
@@ -23,21 +23,11 @@ boolean flip = false;
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
 #define LED_PIN    6
- pinMode(redPin, INPUT);
-  pinMode(greenPin, INPUT);
-  pinMode(yellowPin, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  Serial.begin(9600);
 
-  Serial.print("\non");
 
 // How many NeoPixels are attached to the Arduino?
 #define LED_COUNT 30
- if (!digitalRead(redPin)) {
-    doubleColorWipe(lightPink, 50);
-    doubleColorWipe(red, 10);
-    doubleColorWipe(orange, 50);
-  }
+
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 // Argument 1 = Number of pixels in NeoPixel strip
@@ -59,6 +49,13 @@ void setup() {
   clock_prescale_set(clock_div_1);
 #endif
   // END of Trinket-specific code.
+   pinMode(redPin, INPUT);
+  pinMode(greenPin, INPUT);
+  pinMode(yellowPin, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+
+  Serial.print("\non");
 
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
@@ -79,7 +76,7 @@ void loop() {
   theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
   theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
 
-  rainbow(10);             // Flowing rainbow cycle along the whole strip
+//  rainbow(10);             // Flowing rainbow cycle along the whole strip
   theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant
 }
 
@@ -117,7 +114,7 @@ void theaterChase(uint32_t color, int wait) {
 }
 
 // Rainbow cycle along whole strip. Pass delay time (in ms) between frames.
-void rainbow(int wait) {
+/*void rainbow(int wait) {
   // Hue of first pixel runs 5 complete loops through the color wheel.
   // Color wheel has a range of 65536 but it's OK if we roll over, so
   // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
@@ -134,7 +131,7 @@ void rainbow(int wait) {
     strip.show(); // Update strip with new contents
     delay(wait);  // Pause for a moment
   }
-}
+}*/
 
 // Rainbow-enhanced theater marquee. Pass delay time (in ms) between frames.
 void theaterChaseRainbow(int wait) {
