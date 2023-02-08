@@ -9,7 +9,6 @@
 // - When using a 3.3V microcontroller with a 5V-powered NeoPixel strip,
 //   a LOGIC-LEVEL CONVERTER on the data line is STRONGLY RECOMMENDED.
 // (Skipping these may work OK on your workbench but can fail in the field)
-.getdigitalimput
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
@@ -23,21 +22,11 @@ boolean flip = false;
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
 #define LED_PIN    6
- pinMode(redPin, INPUT);
-  pinMode(greenPin, INPUT);
-  pinMode(yellowPin, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  Serial.begin(9600);
 
-  Serial.print("\non");
 
 // How many NeoPixels are attached to the Arduino?
-#define LED_COUNT 30
- if (!digitalRead(redPin)) {
-    doubleColorWipe(lightPink, 50);
-    doubleColorWipe(red, 10);
-    doubleColorWipe(orange, 50);
-  }
+#define LED_COUNT 100
+
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 // Argument 1 = Number of pixels in NeoPixel strip
@@ -59,6 +48,13 @@ void setup() {
   clock_prescale_set(clock_div_1);
 #endif
   // END of Trinket-specific code.
+   pinMode(redPin, INPUT);
+  pinMode(greenPin, INPUT);
+  pinMode(yellowPin, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+
+  Serial.print("\non");
 
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
